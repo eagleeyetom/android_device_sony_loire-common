@@ -40,6 +40,18 @@ cp /system/lib64/libkeystore_binder.so /sbin/libkeystore_binder.so
 cp /system/lib/libkeystore-engine.so /sbin/libkeystore-engine.so.32
 cp /system/lib64/libkeystore-engine.so /sbin/libkeystore-engine.so
 
+# Copy proprietary kernel modules
+cp /system/lib/modules/core_ctl.ko /sbin/core_ctl.ko
+cp /system/lib/modules/ecryptfs.ko /sbin/ecryptfs.ko
+cp /system/lib/modules/kscl.ko /sbin/kscl.ko
+cp /system/lib/modules/texfat.ko /sbin/texfat.ko
+
+# Load proprietary kernel modules
+insmod /sbin/core_ctl.ko
+insmod /sbin/ecryptfs.ko
+insmod /sbin/kscl.ko
+insmod /sbin/texfat.ko
+
 # bye bye /system!
 umount /system
 
