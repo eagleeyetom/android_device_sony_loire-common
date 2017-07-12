@@ -9,6 +9,12 @@ on init
     chown system system /dev/ion
 
 on fs
+	symlink /system/vendor /vendor
+    chmod 0660 /dev/qseecom
+    chown system drmrpc /dev/qseecom
+    chmod 0664 /dev/ion
+	chown system system /dev/ion
+	
     symlink /dev/block/platform/soc.0/7824900.sdhci /dev/block/bootdevice
 
     wait /dev/block/bootdevice/by-name/cache
@@ -26,6 +32,8 @@ on fs
     write /sys/devices/virtual/input/clearpad/post_probe_start 1
 
     start pulldecryptfiles
+    
+    symlink /firmware/image /vendor/firmware
 
 on post-fs-data
     mkdir /data/property
@@ -43,7 +51,6 @@ service pulldecryptfiles /sbin/pulldecryptfiles.sh
     seclabel u:r:recovery:s0
 
 service sbinqseecomd /sbin/qseecomd
-    late_start
     oneshot
     disabled
     user root
@@ -57,5 +64,7 @@ on property:sys.backlight_on=1
     write /sys/devices/virtual/input/clearpad/force_sleep 0
 
 on property:ro.crypto.state=encrypted
-    wait /sbin/qseecomd
     start sbinqseecomd
+
+on property:ro.crypto.fs_crypto_blkdev=/dev/block/dm-0
+    stop sbinqseecomd
