@@ -48,7 +48,7 @@ USE_CAMERA_STUB := true
 TARGET_HW_DISK_ENCRYPTION := true
 
 # kernel
-#TARGET_KERNEL_SOURCE := kernel/sony/msm8952
+TARGET_KERNEL_SOURCE := kernel/sony/msm8952
 
 # Media
 PRODUCT_COPY_FILES += \
